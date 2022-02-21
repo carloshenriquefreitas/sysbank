@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sysbank - Home</title>
+    <link rel="stylesheet" th:href="@{css/style.css}" />
+  </head>
+  <body>
+    <div th:fragment="menu">
+      <a th:href="@{/accholder}">Account Holders</a>
+      <a th:href="@{/account}">Accounts</a>
+      <a th:href="@{/transfer}">Transfers</a>
+    </div>
+  </body>
+</html>

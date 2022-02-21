@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Accounts</title>
+    <link rel="stylesheet" th:href="@{css/style.css}" />
+  </head>
+  <body>
+    <div th:insert="index :: menu"></div>
+
+    <h1>Accounts</h1>
+
+    <span
+      class="error_msg"
+      th:if="${errorMessage != null}"
+      th:text="${errorMessage}"
+    ></span>
+    <br />
+
+    <form method="post">
+      <label for="cpf">Principal CPF:</label>
+      <input type="text" name="principalCPF" /> <br />
+
+      <label for="description">Account description:</label>
+      <input type="text" name="description" /> <br />
+
+      <input type="submit" value="Add" />
+    </form>
+
+    <div th:if="${#lists.isEmpty(accounts)}">
+      <p>There aren't any accounts registered.</p>
+    </div>
+
+    <div th:unless="${#lists.isEmpty(accounts)}">
+      <table>
+        <thead>
+          <tr>
+            <th>ACCOUNT NUMBER</th>
+            <th>PRINCIPAL CPF</th>
+            <th>DESCRIPTION</th>
+            <th>BALANCE</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <dl th:each="account : ${accounts}">
+            <tr>
+              <td th:text="${account.id}">ACCOUNT NUMBER</td>
+              <td th:text="${account.accHolder.cpf}">PRINCIPAL CPF</td>
+              <td th:text="${account.description}">DESCRIPTION</td>
+              <td th:text="${account.balance}">BALANCE</td>
+            </tr>
+          </dl>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>

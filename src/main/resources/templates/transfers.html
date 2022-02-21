@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Transfers</title>
+    <link rel="stylesheet" th:href="@{css/style.css}" />
+    <script type="text/javascript" th:src="@{js/transfer.js}" defer></script>
+  </head>
+  <body>
+    <div th:insert="index :: menu"></div>
+
+    <h1>Transfers</h1>
+
+    <span
+      class="error_msg"
+      th:if="${errorMessage != null}"
+      th:text="${errorMessage}"
+    ></span>
+    <br />
+
+    <form method="post">
+      <label for="type">Type: </label>
+      <select name="type" id="type">
+        <option
+          th:each="transferType : ${T(com.chfreitas.sysbank.model.TransferType).values()}"
+          th:text="${transferType.name}"
+          th:value="${transferType.code}"
+        ></option>
+      </select>
+      <br />
+
+      <label for="accOrigin">Account origin: </label>
+      <input type="text" name="accOrigin" /> <br />
+
+      <label for="date">Date: </label>
+      <input type="date" name="date" /> <br />
+
+      <label for="amount">Amount: </label>
+      <input type="text" name="amount" /> <br />
+
+      <label for="installments">Installments: </label>
+      <input type="text" name="installments" id="installments" disabled />
+      <br />
+
+      <label for="accDestiny">Account destiny: </label>
+      <input type="text" name="accDestiny" id="accDestiny" disabled />
+      <br />
+
+      <input type="submit" value="Execute" />
+    </form>
+
+    <div th:if="${#lists.isEmpty(transfers)}">
+      <p>There's no transfers registered.</p>
+    </div>
+
+    <div th:unless="${#lists.isEmpty(transfers)}">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>ACCOUNT</th>
+            <th>DATE</th>
+            <th>TYPE</th>
+            <th>AMOUNT</th>
+            <th>ORIGIN</th>
+            <th>DESTINY</th>
+            <th>STATUS</th>
+            <th>ACTION</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <dl th:each="transfer : ${transfers}">
+            <tr>
+              <td th:text="${transfer.id}">ID</td>
+              <td th:text="${transfer.account.id}">ACCOUNT</td>
+              <td th:text="${transfer.date}">DATE</td>
+              <td th:text="${transfer.type}">TYPE</td>
+              <td th:text="${transfer.amount}">AMOUNT</td>
+              <td
+                th:if="${transfer.txOrigin}"
+                th:text="${transfer.txOrigin.account.id}"
+              >
+                ORIGIN
+              </td>
+              <td th:unless="${transfer.txOrigin}">-</td>
+              <td
+                th:if="${transfer.txDestiny}"
+                th:text="${transfer.txDestiny.account.id}"
+              >
+                DESTINY
+              </td>
+              <td th:unless="${transfer.txDestiny}">-</td>
+              <td th:text="${transfer.status}">STATUS</td>
+              <td>
+                <button th:onclick="cancelTransfer([[${transfer.id}]])">
+                  X
+                </button>
+              </td>
+            </tr>
+          </dl>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>
